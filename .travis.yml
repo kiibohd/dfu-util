@@ -1,0 +1,34 @@
+# travis-ci integration to build macOS binaries for dfu-util
+
+language: c
+
+os:
+  - osx
+
+compiler:
+  - clang
+
+# Package Setup
+before_install:
+  - brew update
+  - brew install tree libusb
+
+# System Setup
+install:
+  # Info about OS
+  - uname -a
+
+  # Directory tree to validate checkout
+  - tree
+
+  # Compiler Version
+  - ${CC} --version
+
+# Run Build
+script:
+  - ./autogen.sh && ./configure && make
+
+# Post Build Commands/Packaging
+after_script:
+  - tree
+
