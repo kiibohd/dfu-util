@@ -1,5 +1,7 @@
 Dfu-util - Device Firmware Upgrade Utilities
 
+https://travis-ci.org/kiibohd/dfu-util
+
 Dfu-util is the host side implementation of the DFU 1.0 [1] and DFU 1.1 [2]
 specification of the USB forum.
 

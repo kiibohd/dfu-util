@@ -1,0 +1,47 @@
+# travis-ci integration to build macOS binaries for dfu-util
+
+language: c
+
+os:
+  - osx
+
+compiler:
+  - clang
+
+# Package Setup
+before_install:
+  - brew update
+  - brew install tree libusb
+
+# System Setup
+install:
+  # Info about OS
+  - uname -a
+
+  # Prepare output dir
+  - mkdir -p output
+
+  # Directory tree to validate checkout
+  - tree
+
+# Run Build
+script:
+  - ./autogen.sh && ./configure && make && ./package.bash
+
+## Deploy release
+deploy:
+  provider: releases
+  api_key: $GITHUB_OAUTH_TOKEN
+  skip_cleanup: true
+  draft: true # XXX Must "publish" on github
+  prerelease: true # XXX Set this to false to enable a stable release
+  file_glob: true
+  file: output/dfu-util*
+  on:
+    tags: true
+    repo: kiibohd/dfu-util
+
+# Post Build Commands/Packaging
+after_script:
+  - tree
+
